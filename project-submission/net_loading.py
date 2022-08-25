@@ -7,7 +7,7 @@ def add_final_layer(network, layer):
     return network
 
 
-def get_net(net: str, net_artifact: str):
+def load_net(net: str, net_artifact: str):
     # Define parameter mappings
     final_layer = "Lin-ReLu-Lin": nn.Sequential(
             nn.Linear(512, 256),
