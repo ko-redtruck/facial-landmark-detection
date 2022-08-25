@@ -15,22 +15,25 @@ def predict_facial_landmarks(*pil_images, net):
     return labels.cpu().detach().numpy()
 
 
-def add_labeling_to_image(image, labeling):
-    draw = ImageDraw.Draw(image)
-    points = zip(labeling[:-1:2], labeling[1::2])
+def add_labeling_to_images(*pil_images, *labels):
+    labelled_images = []
+    for image, labeling in zip(pil_images, labels):
+        draw = ImageDraw.Draw(image)
+        points = zip(labeling[:-1:2], labeling[1::2])
 
-    for point in points:
-        x, y = point
-        radius = 1
-        upper_left_point = (x - radius, y - radius)
-        lower_right_point = (x + radius, y + radius)
-        draw.ellipse((upper_left_point, lower_right_point), fill=(255, 0, 0))
+        for point in points:
+            x, y = point
+            radius = 1
+            upper_left_point = (x - radius, y - radius)
+            lower_right_point = (x + radius, y + radius)
+            draw.ellipse((upper_left_point, lower_right_point), fill=(255, 0, 0))
+        labelled_images.append(image)
+        
+    return labelled_images
 
-    return image
 
-
-def predict_image(image, net):
-    resized_image = transforms.functional.center_crop(image, [224])
-    labeling = predict_facial_landmarks(resized_image, net=net)[0]
-    labelled_image = add_labeling_to_image(resized_image, labeling)
+def predict_and_draw_facial_landmarks(*pil_images, net):
+    resized_images = [transforms.functional.center_crop(image, [224]) for image in pil_images]
+    labels = predict_facial_landmarks(resized_images, net=net)
+    labelled_images = add_labeling_to_image(resized_image, labeling)
     return labelled_image
