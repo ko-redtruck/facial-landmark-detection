@@ -9,7 +9,7 @@ def add_final_layer(network, layer):
 
 def load_net(net: str, net_artifact: str):
     # Define parameter mappings
-    final_layer = "Lin-ReLu-Lin": nn.Sequential(
+    final_layer = nn.Sequential(
             nn.Linear(512, 256),
             nn.ReLU(),
             nn.Linear(256, 30)
