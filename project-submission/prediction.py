@@ -15,7 +15,7 @@ def predict_facial_landmarks(*pil_images, net):
     return labels.cpu().detach().numpy()
 
 
-def add_labeling_to_images(*pil_images, *labels):
+def add_labeling_to_images(*pil_images, labels):
     labelled_images = []
     for image, labeling in zip(pil_images, labels):
         draw = ImageDraw.Draw(image)
@@ -35,5 +35,5 @@ def add_labeling_to_images(*pil_images, *labels):
 def predict_and_draw_facial_landmarks(*pil_images, net):
     resized_images = [transforms.functional.center_crop(image, [224]) for image in pil_images]
     labels = predict_facial_landmarks(resized_images, net=net)
-    labelled_images = add_labeling_to_image(resized_image, labeling)
+    labelled_images = add_labeling_to_image(resized_image, labels=labeling)
     return labelled_image
