@@ -1,5 +1,5 @@
 Saving_frames_per_second = 30
-
+import cv2
 
 def get_saving_frames_durations(cap, saving_fps):
     """A function that returns the list of durations where to save the frames"""
