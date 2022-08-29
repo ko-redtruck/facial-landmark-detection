@@ -1,4 +1,4 @@
-from PIL import ImageDraw
+from PIL import ImageDraw, Image
 from datetime import timedelta
 import numpy as np
 Saving_frames_per_second = 30
