@@ -69,8 +69,8 @@ if __name__ == '__main__':
     }
     networks = {
         "ResNet18": add_fc(resnet18(pretrained=True), fc_layers[config["FC_LAYER"]]),
-        # "ResNet34": add_fc(resnet34(weights="DEFAULT"), fc_layers[config["FC_LAYER"]]),
-        # "ResNet50": add_fc(resnet50(weights="DEFAULT"), fc_layers[config["FC_LAYER"]])
+        "ResNet34": add_fc(resnet34(weights="DEFAULT"), fc_layers[config["FC_LAYER"]]),
+        "ResNet50": add_fc(resnet50(weights="DEFAULT"), fc_layers[config["FC_LAYER"]])
     }
     optimizers = {
         "Adam": Adam(networks[config["NET"]].parameters(), weight_decay=config["WEIGHT_DECAY"]),
