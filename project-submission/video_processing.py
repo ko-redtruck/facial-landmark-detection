@@ -1,5 +1,20 @@
+from PIL import ImageDraw
+from datetime import timedelta
+import numpy as np
 Saving_frames_per_second = 30
 import cv2
+
+def format_timedelta(td):
+    """Utility function to format timedelta objects in a cool way (e.g 00:00:20.05) 
+    omitting microseconds and retaining milliseconds"""
+    result = str(td)
+    try:
+        result, ms = result.split(".")
+    except ValueError:
+        return result + ".00".replace(":", "-")
+    ms = int(ms)
+    ms = round(ms / 1e4)
+    return f"{result}.{ms:02}".replace(":", "-")
 
 def get_saving_frames_durations(cap, saving_fps):
     """A function that returns the list of durations where to save the frames"""
