@@ -6,7 +6,7 @@ Intro to Deep Learning | Project E2
 
 The submission includes two trained model files which can be tested with the demo notebook or using the testing script (`test.py`).
 
-The project code is split into 5 files with`data_loading.py` containing all functionality used for data-loading and preprocessing, `visualisation.py` the one concerning the visualisation of training and test data and `video_processing.py` the functions used to extraxt frames from videos and reconstruct them. `train.py` is a training script which can be executed from the command line and automatically fetches the dataset from [GitHub](https://github.com/ko-redtruck/facial-landmark-detection/raw/main/facial-keypoints-detection.zip). The script `test.py` can be used to test a model file.
+The project code is split into 5 files with `data_loading.py` containing all functionality used for data-loading and preprocessing, `visualisation.py` the one concerning the visualisation of training and test data and `video_processing.py` the functions used to extraxt frames from videos and reconstruct them. `train.py` is a training script which can be executed from the command line and automatically fetches the dataset from [GitHub](https://github.com/ko-redtruck/facial-landmark-detection/raw/main/facial-keypoints-detection.zip). The script `test.py` can be used to test a model file.
 
 ### Execution
 
@@ -17,7 +17,8 @@ Execution starts a new training run, saving the resulting model to `output-model
 Additionally, the size of the dataset can be reduced from 2096 to 200 data points by providing the `-- reduce-data`-option when executing the script which is useful for testing on lightweight machines.
 In the same spirit the current run configuration is tailored to be very resource friendly and not what we used for our training (example configurations below). The configuration can be changed by adjusting the desired values in the `config`-dictionary inside the python file.
 
-The testing script can be used with any JPG or PNG images or sample pictures from the original dataset, which will be fetched automatically (if not present in the provided data directory). ```
+The testing script can be used with any JPG or PNG images or sample pictures from the original dataset, which will be fetched automatically (if not present in the provided data directory).
+```
 usage: python testing_script model_file test_image1 [test_image2 ...] 
        python testing_script model_file --use-dataset [data_dir] 
     if the --use-dataset option is supplied the first 3 pictures of the original dataset will be used and the predictions plotted against the actual labels
