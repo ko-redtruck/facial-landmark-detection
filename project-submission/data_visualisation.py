@@ -29,7 +29,7 @@ def plot_images(images: np.ndarray, labels: np.ndarray = None, num: int = None):
 
 
 # Add predictions to image
-def predict_facial_landmarks(*pil_images, net):
+def predict_facial_landmarks(net, *pil_images):
     preprocess = transforms.Compose([
         transforms.ToTensor(),
         transforms.Resize(224)
@@ -42,7 +42,7 @@ def predict_facial_landmarks(*pil_images, net):
     return labels.cpu().detach().numpy()
 
 
-def add_labeling_to_images(*pil_images, labels):
+def add_labeling_to_images(pil_images, labels):
     def get_ellipse_corners(center, radius):
         x, y = center
         upper_left_corner = (x - radius, y - radius)
@@ -62,8 +62,10 @@ def add_labeling_to_images(*pil_images, labels):
     return labelled_images
 
 
-def predict_and_draw_facial_landmarks(*pil_images, net):
-    resized_images = [center_crop(image, [224]) for image in pil_images]
-    labels = predict_facial_landmarks(resized_images, net=net)
-    labelled_images = add_labeling_to_images(resized_images, labels=labels)
+def predict_and_draw_facial_landmarks(net, center_crop_size, *pil_images):
+    if center_crop_size != None:
+        pil_images = [center_crop(image, [min(center_crop_size, min(image.size))]) for image in pil_images]
+
+    labels = predict_facial_landmarks(net=net, *pil_images)
+    labelled_images = add_labeling_to_images(pil_images, labels)
     return labelled_images
