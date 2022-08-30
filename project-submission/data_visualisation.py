@@ -62,7 +62,7 @@ def add_labeling_to_images(pil_images, labels):
     return labelled_images
 
 
-def predict_and_draw_facial_landmarks(net, center_crop_size, *pil_images):
+def predict_and_draw_facial_landmarks(net, *pil_images, center_crop_size=None):
     if center_crop_size != None:
         pil_images = [center_crop(image, [min(center_crop_size, min(image.size))]) for image in pil_images]
 
