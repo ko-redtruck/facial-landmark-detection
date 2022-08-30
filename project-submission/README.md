@@ -12,17 +12,17 @@ The project code is split into 5 files with `data_loading.py` containing all fun
 
 The usage of the training script is `python training_script [--reduce-data] [output_model]`.
 
-Execution starts a new training run, saving the resulting model to `output-model-path` if supplied, with the default being `model.pickle`.
+Execution starts a new training run, saving the resulting model to `output_model` if supplied, with the default being `model.pickle`.
 
-Additionally, the size of the dataset can be reduced from 2096 to 200 data points by providing the `-- reduce-data`-option when executing the script which is useful for testing on lightweight machines.
+Additionally, the size of the dataset can be reduced from 2096 to 200 data points by providing the `--reduce-data`-option when executing the script which is useful for testing on lightweight machines.
 In the same spirit the current run configuration is tailored to be very resource friendly and not what we used for our training (example configurations below). The configuration can be changed by adjusting the desired values in the `config`-dictionary inside the python file.
 
 The testing script can be used with any JPG or PNG images or sample pictures from the original dataset, which will be fetched automatically (if not present in the provided data directory).
-```
-usage: python testing_script model_file test_image1 [test_image2 ...] 
+
+`usage: python testing_script model_file test_image1 [test_image2 ...] 
        python testing_script model_file --use-dataset [data_dir] 
-    if the --use-dataset option is supplied the first 3 pictures of the original dataset will be used and the predictions plotted against the actual labels
-```
+    if the --use-dataset option is supplied the first 3 pictures of the original dataset will be used and the predictions plotted against the actual labels`
+
 (if `data_dir` is not provided with the `--use-dataset`-option `./data` will be used)
 
 
