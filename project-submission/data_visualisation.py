@@ -56,7 +56,7 @@ def add_labeling_to_images(pil_images, labels):
         points = zip(labeling[:-1:2], labeling[1::2])
 
         for point in points:
-            draw.ellipse(get_ellipse_corners(center, 1), fill=(255, 0, 0))
+            draw.ellipse(get_ellipse_corners(point, 1), fill=(255, 0, 0))
         labelled_images.append(image)
         
     return labelled_images
