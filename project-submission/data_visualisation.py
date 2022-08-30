@@ -29,7 +29,7 @@ def plot_images(images: np.ndarray, labels: np.ndarray = None, num: int = None):
 
 
 # Add predictions to image
-def predict_facial_landmarks(*pil_images, net):
+def predict_facial_landmarks(*pil_images, net, device):
     preprocess = transforms.Compose([
         transforms.ToTensor(),
         transforms.Resize(224)
@@ -62,10 +62,10 @@ def add_labeling_to_images(pil_images, labels):
     return labelled_images
 
 
-def predict_and_draw_facial_landmarks(*pil_images, net, center_crop_size=None):
+def predict_and_draw_facial_landmarks(*pil_images, net, device, center_crop_size=None):
     if center_crop_size != None:
         pil_images = [center_crop(image, [min(center_crop_size, min(image.size))]) for image in pil_images]
 
-    labels = predict_facial_landmarks(*pil_images, net=net)
+    labels = predict_facial_landmarks(*pil_images, net=net, device=device)
     labelled_images = add_labeling_to_images(pil_images, labels)
     return labelled_images
