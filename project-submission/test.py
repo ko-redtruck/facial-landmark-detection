@@ -24,6 +24,6 @@ if __name__ == '__main__':
         images, labels = get_facial_landmark_detection_data(r"./data" if len(sys.argv) != 4 else sys.argv[3])
         images, labels = images[:3], labels[:3]
 
-    predicted_images = predict_and_draw_facial_landmarks(model, *images)
+    predicted_images = predict_and_draw_facial_landmarks(*images, net=model)
     
     plot_images(predicted_images, labels)
