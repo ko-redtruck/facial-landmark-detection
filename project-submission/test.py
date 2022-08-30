@@ -5,7 +5,7 @@ from data_visualisation import plot_images, predict_and_draw_facial_landmarks
 
 USAGE_MSG = f"""usage: python {sys.argv[0]} model_file test_image1 [test_image2 ...]
        python {sys.argv[0]} model_file --use-dataset [data_dir]
-\tif the --use-dataset option is supplied the first 3 pictures of the original dataset will be used and the predictions plotted against the actual labels\n"""
+\tif the --use-dataset option is supplied the first 3 pictures of the original dataset will be used and the predictions plotted against the actual labels"""
 
 if __name__ == '__main__':
     if len(sys.argv) < 3:
