@@ -10,6 +10,7 @@ from PIL import Image, ImageDraw
 from torchvision.transforms.functional import to_pil_image
 from torchvision import transforms
 
+USAGE_MSG = f"python {sys.argv[0]} model_file"
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
@@ -82,7 +83,17 @@ def predict_image(image, net):
     return labelled_image
 
 
-def main(net, target_size: []):
+def main(target_size: [], net=None):
+    if net == None:
+        if len(sys.argv) != 2:
+            sys.exit("Unexpected number of arguments received.\n" + USAGE_MSG)
+        
+        model_file = sys.argv[1] 
+        if not os.path.isfile(model_file): 
+            sys.exit(f"Error: File {model_file} does not exist.\n" + USAGE_MSG) 
+        
+        net = torch.load(model_file)
+    
     vid = cv2.VideoCapture(0)
     vid.set(cv2.CAP_PROP_FRAME_WIDTH, 224)
     vid.set(cv2.CAP_PROP_FRAME_HEIGHT, 224)
@@ -104,4 +115,4 @@ def main(net, target_size: []):
 
 
 if __name__ == '__main__':
-    main(get_net("ResNet34", "v12", "Lin-ReLu-Lin"), target_size=[224 * 3])
+    main(target_size=[224 * 3])
