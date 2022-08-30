@@ -1,8 +1,9 @@
 from PIL import ImageDraw, Image
 from datetime import timedelta
 import numpy as np
-Saving_frames_per_second = 30
 import cv2
+
+SAVING_FPS = 30
 
 def format_timedelta(td):
     """Utility function to format timedelta objects in a cool way (e.g 00:00:20.05) 
@@ -36,9 +37,9 @@ def extract_frames_from(video_file):
   # get the FPS of the video
   fps = cap.get(cv2.CAP_PROP_FPS)
   # if the SAVING_FRAMES_PER_SECOND is above video FPS, then set it to FPS (as maximum)
-  saving_frames_per_second = min(fps, Saving_frames_per_second)
+  saving_frames_per_second = min(fps, SAVING_FPS)
   # get the list of duration spots to save
-  saving_frames_durations = get_saving_frames_durations(cap, saving_frames_per_second)
+  saving_frames_durations = get_saving_frames_durations(cap, SAVING_FPS)
   # start the loop
   count = 0
   frames = []
@@ -88,7 +89,7 @@ def opencv_images_to_video(opencv_images,video_filename):
   height, width, layers = opencv_images[0].shape
   image_size = (width, height)
 
-  out = cv2.VideoWriter(video_filename, cv2.VideoWriter_fourcc(*'MP4V'), Saving_frames_per_second, image_size)
+  out = cv2.VideoWriter(video_filename, cv2.VideoWriter_fourcc(*'MP4V'), SAVING_FPS, image_size)
   for frame in opencv_images:
     out.write(frame)
   out.release()
