@@ -10,6 +10,8 @@ import sys, os
 from data_loading import get_facial_landmark_detection_data, preprocess_data
 from torch.utils.data import DataLoader, random_split
 
+USAGE_MSG = f"usage: python {sys.argv[0]} [--reduce-data] output_file"
+
 # Fetch, preprocess data and get dataloaders
 def get_data_loaders(images, labels, batch_size, test_data_split=0.1, num_workers=2):
     dataset = list(zip(images, labels))
@@ -22,11 +24,11 @@ def get_data_loaders(images, labels, batch_size, test_data_split=0.1, num_worker
 
 if __name__ == '__main__':
     if len(sys.argv) not in [2, 3]:
-        sys.exit("Wrong number of arguments provided...\nUsage: python <path to train.py> [--reduce-data] <output file>")
+        sys.exit("Wrong number of arguments provided...\n" + USAGE_MSG)
 
     if len(sys.argv) == 3 and sys.argv[1] != "--reduce-data":
         sys.exit(
-            f"Received unexpected argument: {sys.argv[1]}\nUsage: python <path to train.py> [--reduce-data] <output file>")
+            f"Received unexpected argument: {sys.argv[1]}\n" + USAGE_MSG)
 
     should_reduce_data = len(sys.argv) == 3
 
