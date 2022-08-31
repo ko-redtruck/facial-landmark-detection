@@ -1,5 +1,6 @@
 # import the opencv library
 import os
+import sys
 import numpy as np
 import torch
 import torch.nn as nn
@@ -84,15 +85,15 @@ def predict_image(image, net):
 
 
 def main(target_size: [], net=None):
-    if net == None:
+    if net is None:
         if len(sys.argv) != 2:
             sys.exit("Unexpected number of arguments received.\n" + USAGE_MSG)
-        
-        model_file = sys.argv[1] 
-        if not os.path.isfile(model_file): 
-            sys.exit(f"Error: File {model_file} does not exist.\n" + USAGE_MSG) 
-        
-        net = torch.load(model_file)
+
+        model_file = sys.argv[1]
+        if not os.path.isfile(model_file):
+            sys.exit(f"Error: File {model_file} does not exist.\n" + USAGE_MSG)
+
+        net = torch.load(model_file, map_location=device)
     
     vid = cv2.VideoCapture(0)
     vid.set(cv2.CAP_PROP_FRAME_WIDTH, 224)
