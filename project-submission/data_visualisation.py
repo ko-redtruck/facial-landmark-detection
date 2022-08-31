@@ -62,10 +62,14 @@ def add_labeling_to_images(pil_images, labels):
     return labelled_images
 
 
-def predict_and_draw_facial_landmarks(*pil_images, net, device, center_crop_size=None):
-    if center_crop_size != None:
-        pil_images = [center_crop(image, [min(center_crop_size, min(image.size))]) for image in pil_images]
-
+def predict_and_draw_facial_landmarks(*pil_images, net, device):
+    #crop to square
+    pil_images = [center_crop(image, [min(image.size)]) for image in pil_images]
+    #predict facial landmarks
     labels = predict_facial_landmarks(*pil_images, net=net, device=device)
+    
+    #transform label coordinates to fit original image
+    labels = [labels[i] * (pil_images[i].size[0]/224) for i in range(len(labels))]
+    #draw predicted facial landmarks
     labelled_images = add_labeling_to_images(pil_images, labels)
     return labelled_images
