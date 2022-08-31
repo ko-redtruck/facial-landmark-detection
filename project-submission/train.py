@@ -1,16 +1,18 @@
 #!/bin/python3
 
-
-import torch, torch.nn as nn
-from torchvision.models import resnet18, resnet34, resnet50
+import os
+import sys
+import torch
+import torch.nn as nn
+from torchvision.models import resnet18, ResNet18_Weights, resnet34, ResNet34_Weights, resnet50, ResNet50_Weights
 from torch.optim import Adam, AdamW
-from torch.optim.lr_scheduler import OneCycleLR, CyclicLR
-import sys, os
+from torch.optim.lr_scheduler import CyclicLR, OneCycleLR
 
 from data_loading import get_facial_landmark_detection_data, preprocess_data
 from torch.utils.data import DataLoader, random_split
 
 USAGE_MSG = f"usage: python {sys.argv[0]} [--reduce-data] output_file"
+
 
 # Fetch, preprocess data and get dataloaders
 def get_data_loaders(images, labels, batch_size, test_data_split=0.1, num_workers=2):
@@ -21,6 +23,7 @@ def get_data_loaders(images, labels, batch_size, test_data_split=0.1, num_worker
     train_loader = DataLoader(train, batch_size=batch_size, shuffle=True, num_workers=num_workers)
     test_loader = DataLoader(test, batch_size=batch_size, num_workers=num_workers)
     return train_loader, test_loader
+
 
 if __name__ == '__main__':
     if len(sys.argv) not in [2, 3]:
@@ -54,12 +57,10 @@ if __name__ == '__main__':
         "WEIGHT_DECAY": 0.01
     }
 
-
     # Parameter mappings
     def add_fc(net, layer):
         net.fc = layer
         return net
-
 
     fc_layers = {
         "Lin-ReLu-Lin": nn.Sequential(
@@ -70,9 +71,9 @@ if __name__ == '__main__':
         "Linear": nn.Linear(512, 30)
     }
     networks = {
-        "ResNet18": add_fc(resnet18(pretrained=True), fc_layers[config["FC_LAYER"]]),
-        "ResNet34": add_fc(resnet34(weights="DEFAULT"), fc_layers[config["FC_LAYER"]]),
-        "ResNet50": add_fc(resnet50(weights="DEFAULT"), fc_layers[config["FC_LAYER"]])
+        "ResNet18": add_fc(resnet18(weights=ResNet18_Weights.DEFAULT), fc_layers[config["FC_LAYER"]]),
+        "ResNet34": add_fc(resnet34(weights=ResNet34_Weights.DEFAULT), fc_layers[config["FC_LAYER"]]),
+        "ResNet50": add_fc(resnet50(weights=ResNet50_Weights.DEFAULT), fc_layers[config["FC_LAYER"]])
     }
     optimizers = {
         "Adam": Adam(networks[config["NET"]].parameters(), weight_decay=config["WEIGHT_DECAY"]),
@@ -90,10 +91,6 @@ if __name__ == '__main__':
     optimizer = optimizers[config["OPTIMIZER"]]
     loss_function = loss_functions[config["LOSS"]]
     num_workers = 0 if sys.platform.startswith('win') else 2
-
-
-    
-
 
     images, labels = get_facial_landmark_detection_data("./data")
     print("Fetched Images, processing...")
@@ -116,7 +113,6 @@ if __name__ == '__main__':
                            gamma=config["GAMMA"], cycle_momentum=False)
     }
     scheduler = schedulers[config["LR_SCHEDULER"]]
-
 
     # Training
     def compute_loss(inputs, labels, net, loss_function):
@@ -148,7 +144,7 @@ if __name__ == '__main__':
         # average loss
         train_loss /= len(train_loader)
 
-        currentreduce_data_learning_rate = scheduler.get_last_lr()[0]
+        current_learning_rate = scheduler.get_last_lr()[0]
 
         # test model
         net.eval()
