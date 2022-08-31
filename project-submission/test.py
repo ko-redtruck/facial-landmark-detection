@@ -15,7 +15,8 @@ if __name__ == '__main__':
     if not os.path.isfile(model_file):
         sys.exit("Error: Model file does not exist.\n" + USAGE_MSG)
     
-    model = torch.load(model_file)
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    model = torch.load(model_file, map_location=device)
 
     images, labels = None
     if sys.argv[2] != "--use-dataset":
@@ -24,6 +25,6 @@ if __name__ == '__main__':
         images, labels = get_facial_landmark_detection_data(r"./data" if len(sys.argv) != 4 else sys.argv[3])
         images, labels = images[:3], labels[:3]
 
-    predicted_images = predict_and_draw_facial_landmarks(*images, net=model)
+    predicted_images = predict_and_draw_facial_landmarks(*images, net=model, device=device)
     
     plot_images(predicted_images, labels)
