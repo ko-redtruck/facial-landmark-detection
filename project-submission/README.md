@@ -4,9 +4,9 @@ Intro to Deep Learning | Project E2
 
 ### Submission
 
-The submission includes two trained model files which can be tested with the submitted demo notebook or using the testing script (`test.py`) which is part of the project code. There are also test images provided in the `testImages`-directory.
+The submission includes two trained model files which can be tested with the submitted demo notebook, the livestream code in `live_prediction.py` or using the testing script (`test.py`) which is part of the project code. There are also test images provided in the `testImages` directory.
 
-The project code is split into 5 files with `data_loading.py` containing all functionality used for data-loading and preprocessing, `visualisation.py` the one concerning the visualisation of training and test data and `video_processing.py` the functions used to extraxt frames from videos and reconstruct them. `train.py` is a training script which can be executed from the command line and automatically fetches the dataset from [GitHub](https://github.com/ko-redtruck/facial-landmark-detection/raw/main/facial-keypoints-detection.zip). The script `test.py` can be used to test a model file.
+The project code is split into 6 files with `data_loading.py` containing all functionality used for data-loading and preprocessing, `visualisation.py` the one concerning the visualisation and prediction of training and test data and `video_processing.py` having functions used to extraxt frames from videos and reconstruct them. `train.py` is a training script which can be executed from the command line and automatically fetches the dataset from [GitHub](https://github.com/ko-redtruck/facial-landmark-detection/raw/main/facial-keypoints-detection.zip). The script `test.py` can be used to test a model file on images and `live_prediction.py` starts a video stream, where the live webcam feed is being predicted.
 
 ### Execution
 
@@ -25,6 +25,7 @@ usage: python testing_script model_file test_image1 [test_image2 ...]
 ```
 (if `data_dir` is not provided with the `--use-dataset`-option `./data` will be used)
 
+The `live_prediction.py` script also only requires a model file as an argument and will take some time, before a new window should open, where you will be able to watch the model perform its predicitons live on your webcam. We found it a little bit hard and tricky to setup all the dependencies and environment stuff for this script, so for troubleshooting purposes, we have provided the output of the `conda list` command from a windows machine, that this script worked with. We used python version is 3.9.12 and conda version 4.13.0
 
 ### Run Configuration
 
