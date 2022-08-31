@@ -1,5 +1,7 @@
-import sys, os
+import os
+import sys
 import torch
+from PIL import Image
 from data_loading import get_facial_landmark_detection_data
 from data_visualisation import plot_images, predict_and_draw_facial_landmarks
 
@@ -18,7 +20,7 @@ if __name__ == '__main__':
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     model = torch.load(model_file, map_location=device)
 
-    images, labels = None
+    images, labels = None, None
     if sys.argv[2] != "--use-dataset":
         images = [Image.open(image_path) for image_path in sys.argv[2:]]
     else:
